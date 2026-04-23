@@ -24,6 +24,73 @@ Each command invokes a specialized **subagent** (a Claude with its own system pr
 4. **An improved PRD version** with a changelog explaining what was applied from the reviews and what was rejected.
 5. **A working HTML/CSS/JS prototype** of the P0 CUJs (Critical User Journeys, the must-have flows). No build step. Double-click to open.
 
+## Three ways to use this
+
+The slash commands are the fastest path, but they are not the only way. Pick the level that matches how much you want to trust vs. steer the flow.
+
+### Method 1: Slash commands (one-shot)
+
+Just type the command. The prompt, the subagents, and the output path are all wired up. Fast, repeatable, best for demos and teams that want a consistent output.
+
+```
+/find-evidence "Parents of kids 4-10 throw out too much food each week"
+/draft-prd
+/review-prd
+/improve-prd
+/vibe-code
+```
+
+### Method 2: Load the skill, then direct it
+
+Ask Claude Code to load the skill by name and follow it, instead of typing the slash command. Useful when you want to tweak something mid-flow, or when you want students to see that the skill is just a prompt Claude Code reads and runs.
+
+```
+Load the find-evidence skill and run it for "Parents of kids 4-10 throw out too much food each week."
+
+Load the draft-prd skill.
+
+Load the review-prd skill.
+
+Load the improve-prd skill.
+
+Load the vibe-code skill.
+```
+
+You can redirect mid-flow, e.g., "Load the draft-prd skill, but emphasize the weekend-scheduling CUJ." You get the structure of the skill without being locked into its defaults.
+
+### Method 3: No skill at all, write the prompt yourself
+
+Skip the skill file entirely. Describe what you want Claude Code to do in plain English for each step. This is the most flexible and the best way to internalize what the skills are doing under the hood.
+
+**Step 1 (instead of /find-evidence):**
+```
+Search Reddit, forums, product reviews, and news for real posts from parents of kids 4-10 talking about food waste. Find 8-12 quotes from real people. Save the findings to research/ in a structured markdown file with direct quotes, sources, patterns, workarounds, and counter-evidence. Tell me how strong the evidence is.
+```
+
+**Step 2 (instead of /draft-prd):**
+```
+Read the evidence file in research/. Write a PRD with these sections: Problem & User, Evidence, Goals & Success Metrics, Solution Overview, Key CUJs (as a user I want to...), MVP Scope, Trade-offs, Risks & Open Questions. Save it to prd/prd-v1.md. Every claim must cite a quote from the evidence.
+```
+
+**Step 3 (instead of /review-prd):**
+```
+Use three subagents in parallel to review the PRD at prd/prd-v1.md: a skeptical senior engineer (buildability), a Director of Product (scope and strategy), and a senior PM peer (clarity and sharpness). Save each review to prd/reviews/, then write a synthesis of where they agree and disagree.
+```
+
+**Step 4 (instead of /improve-prd):**
+```
+Read the three reviews and the synthesis. Apply the findings that are valid. Push back on the ones that contradict the evidence. Write prd/prd-v2.md with a changelog at the top explaining what changed and what was rejected.
+```
+
+**Step 5 (instead of /vibe-code):**
+```
+Read prd/prd-v2.md. Build a working HTML/CSS/JS prototype in prototype/ that demonstrates every P0 CUJ. One file preferred. No build step. Runs by double-clicking index.html.
+```
+
+The output quality depends on how well you write the prompt. The skill is just this prompt, pre-written and reusable.
+
+**Workshop recommendation:** start with Method 1 to see the flow end to end. Once you understand what each step does, drop into Method 2 or 3 when you want to adapt the flow to a different problem, a different PRD format, or a different team's voice.
+
 ## How to run
 
 1. **Clone this repo:**
